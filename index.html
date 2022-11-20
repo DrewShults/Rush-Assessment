@@ -35060,24 +35060,24 @@ var tableData = [
   */
 
 
-var state = {
+var state = {  //adds array objects to querySet
   'querySet': tableData,
 
   'page': 1,
-  'rows': 50,
+  'rows': 10,
   'window': 5,
 }
 
-buildTable()
+buildTable() //Loops through data and appends it to table
 
-function pagination(querySet, page, rows) {
+function pagination(querySet, page, rows) { //grabs dataset, trims, and returns limited query set plus the amount of pages.
 
   var trimStart = (page - 1) * rows
   var trimEnd = trimStart + rows
 
-  var trimmedData = querySet.slice(trimStart, trimEnd)
+  var trimmedData = querySet.slice(trimStart, trimEnd) 
 
-  var pages = Math.round(querySet.length / rows);
+  var pages = Math.round(querySet.length / rows);   //figures out how many pages dataset has and rounds up)
 
   return {
       'querySet': trimmedData,
@@ -35085,16 +35085,16 @@ function pagination(querySet, page, rows) {
   }
 }
 
-function pageButtons(pages) {
+function pageButtons(pages) {   
   var wrapper = document.getElementById('pagination-wrapper')
 
   wrapper.innerHTML = ``
-console.log('Pages:', pages)
+  console.log('Pages:', pages)
 
-  var maxLeft = (state.page - Math.floor(state.window / 2))
+  var maxLeft = (state.page - Math.floor(state.window / 2)) //tells us from current pg which buttons show
   var maxRight = (state.page + Math.floor(state.window / 2))
 
-  if (maxLeft < 1) {
+  if (maxLeft < 1) { //if max left is less thn 1, set 1. Max right = window
       maxLeft = 1
       maxRight = state.window
   }
@@ -35111,19 +35111,19 @@ console.log('Pages:', pages)
   
 
   for (var page = maxLeft; page <= maxRight; page++) {
-    wrapper.innerHTML += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`
+    wrapper.innerHTML += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>` //value of each button set to page its associated to.
   }
 
-  if (state.page != 1) {
+  if (state.page != 1) {  //if current page not 1 add first button
       wrapper.innerHTML = `<button value=${1} class="page btn btn-sm btn-info">&#171; First</button>` + wrapper.innerHTML
   }
 
-  if (state.page != pages) {
+  if (state.page != pages) {  //if current page is not the last add Last button
       wrapper.innerHTML += `<button value=${pages} class="page btn btn-sm btn-info">Last &#187;</button>`
   }
 
   $('.page').on('click', function() {
-      $('#table-body').empty()
+      $('#table-body').empty()  //assure table is empty before adding new rows(jquery)
 
       state.page = Number($(this).val())
 
@@ -35136,7 +35136,7 @@ console.log('Pages:', pages)
 function buildTable() {
   var table = $('#table-body')
 
-  var data = pagination(state.querySet, state.page, state.rows)
+  var data = pagination(state.querySet, state.page, state.rows) //stores values in data var
   var myList = data.querySet
 
   for (var i = 1 in myList) {
